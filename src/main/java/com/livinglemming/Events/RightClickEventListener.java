@@ -1,13 +1,19 @@
 package com.livinglemming.Events;
 
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
 
 public class RightClickEventListener {
     public static void registerRightClickEvent() {
@@ -26,8 +32,8 @@ public class RightClickEventListener {
                     player.giveItemStack(spawnEggStack);
                 }
 
-                villager.teleport(villager.getX(), villager.getY() + 100, villager.getZ());
-                villager.kill();
+                villager.remove(Entity.RemovalReason.DISCARDED);
+                return ActionResult.SUCCESS;
             }
 
             return ActionResult.PASS;

@@ -8,15 +8,15 @@
 		"LivingLemming"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/villager-pickup",
+		"sources": "https://github.com/Living-Lemming/Villager-Pickup-Mod/tree/main"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/villager-pickup/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.livinglemming.ExampleMod"
+          "com.livinglemming.VillagerPickup"
 		]
 	},
 	"mixins": [

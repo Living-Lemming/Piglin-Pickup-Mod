@@ -47,7 +47,6 @@ public class RightClickEventListener {
 
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             if (!player.isCreative() && world.getBlockState(hitResult.getBlockPos()).getBlock() == Blocks.SPAWNER && player.getStackInHand(hand).getItem() == Items.VILLAGER_SPAWN_EGG) {
-                world.setBlockState(hitResult.getBlockPos(), world.getBlockState(hitResult.getBlockPos()));
                 return ActionResult.FAIL;
             }
 

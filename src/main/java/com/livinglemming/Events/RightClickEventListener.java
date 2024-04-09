@@ -1,10 +1,13 @@
 package com.livinglemming.Events;
 
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -27,7 +30,7 @@ public class RightClickEventListener {
                     NbtList tooltipList = new NbtList();
 
                     nbtCompound.put("EntityTag", nbt);
-                    tooltipList.add(NbtString.of("{\"text\":\"Profession: [" + villager.getVillagerData().getProfession().toString() +  "]\",\"color\":\"gray\",\"italic\":false}"));
+                    tooltipList.add(NbtString.of("{\"text\":\"Profession: [" + villager.getVillagerData().getProfession().toString() + "]\",\"color\":\"gray\",\"italic\":false}"));
                     textCompound.put("Lore", tooltipList);
                     nbtCompound.put("display", textCompound);
 
@@ -37,6 +40,15 @@ public class RightClickEventListener {
 
                 villager.remove(Entity.RemovalReason.DISCARDED);
                 return ActionResult.SUCCESS;
+            }
+
+            return ActionResult.PASS;
+        });
+
+        UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
+            if (!player.isCreative() && world.getBlockState(hitResult.getBlockPos()).getBlock() == Blocks.SPAWNER && player.getStackInHand(hand).getItem() == Items.VILLAGER_SPAWN_EGG) {
+                world.setBlockState(hitResult.getBlockPos(), world.getBlockState(hitResult.getBlockPos()));
+                return ActionResult.FAIL;
             }
 
             return ActionResult.PASS;

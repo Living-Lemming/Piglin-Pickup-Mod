@@ -35,7 +35,11 @@ public class RightClickEventListener {
                     nbtCompound.put("display", textCompound);
 
                     spawnEggStack.setNbt(nbtCompound);
-                    player.giveItemStack(spawnEggStack);
+                    if (player.getInventory().getEmptySlot() != -1) {
+                        player.giveItemStack(spawnEggStack);
+                    } else {
+                        player.dropItem(spawnEggStack, true);
+                    }
                 }
 
                 villager.remove(Entity.RemovalReason.DISCARDED);

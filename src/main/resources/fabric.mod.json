@@ -1,22 +1,22 @@
 {
 	"schemaVersion": 1,
-	"id": "villager-pickup",
+	"id": "piglin-pickup",
 	"version": "${version}",
-	"name": "Villager Pickup",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Piglin Pickup",
+	"description": "Allows you to pick up piglins by shift-right clicking them",
 	"authors": [
 		"LivingLemming"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/villager-pickup",
-		"sources": "https://github.com/Living-Lemming/Villager-Pickup-Mod/tree/main"
+		"homepage": "https://modrinth.com/mod/piglin-pickup",
+		"sources": "https://github.com/Living-Lemming/Piglin-Pickup-Mod/tree/main"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/villager-pickup/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-          "com.livinglemming.VillagerPickup"
+          "com.livinglemming.PiglinPickup"
 		]
 	},
 	"mixins": [

@@ -4,35 +4,35 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.entity.mob.PiglinBrain;
+import net.minecraft.entity.mob.PiglinEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 
 public class RightClickEventListener {
     public static void registerRightClickEvent() {
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-            if (player.isSneaking() && entity instanceof VillagerEntity villager) {
+            if (player.isSneaking() && entity instanceof PiglinEntity piglin) {
                 NbtCompound nbt = new NbtCompound();
-                villager.writeCustomDataToNbt(nbt);
+                piglin.writeCustomDataToNbt(nbt);
 
-                Item spawnEgg = SpawnEggItem.forEntity(villager.getType());
+                if (!PiglinBrain.wearsGoldArmor(player)) {
+                    player.sendMessage(Text.literal("You need to equip some gold armor to pickup a piglin"));
+                    return ActionResult.FAIL;
+                }
+
+                Item spawnEgg = SpawnEggItem.forEntity(piglin.getType());
                 if (spawnEgg != null) {
                     ItemStack spawnEggStack = new ItemStack(spawnEgg);
 
                     NbtCompound nbtCompound = new NbtCompound();
-                    NbtCompound textCompound = new NbtCompound();
-                    NbtList tooltipList = new NbtList();
 
                     nbtCompound.put("EntityTag", nbt);
-                    tooltipList.add(NbtString.of("{\"text\":\"Profession: [" + villager.getVillagerData().getProfession().toString() + "]\",\"color\":\"gray\",\"italic\":false}"));
-                    textCompound.put("Lore", tooltipList);
-                    nbtCompound.put("display", textCompound);
 
                     spawnEggStack.setNbt(nbtCompound);
                     if (player.getInventory().getEmptySlot() != -1) {
@@ -42,7 +42,7 @@ public class RightClickEventListener {
                     }
                 }
 
-                villager.remove(Entity.RemovalReason.DISCARDED);
+                piglin.remove(Entity.RemovalReason.DISCARDED);
                 return ActionResult.SUCCESS;
             }
 
